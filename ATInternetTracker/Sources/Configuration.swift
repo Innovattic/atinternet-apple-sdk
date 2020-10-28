@@ -73,6 +73,17 @@ public enum UUIDExpirationModeKey: String {
     case relative = "relative"
 }
 
+/// Expiration mode
+///
+/// - none: No encryption stored data
+/// - ifCompatible: encryption stored data enabled if device is compatible
+/// - force: /!\ encryption stored data enable AND if not data not stored
+public enum EncryptionMode: String {
+    case none = "none"
+    case ifCompatible = "ifCompatible"
+    case force = "force"
+}
+
 /// States
 ///
 /// - active: hits are send only when the application is active
