@@ -200,46 +200,6 @@ class TechnicalContext: NSObject {
                 return UUID
             }
             
-            let idfa: () -> String = {
-                #if canImport(AdSupport)
-                let sharedASIdentifierManager = ASIdentifierManager.shared()
-                var isTrackingEnabled: Bool
-                
-                #if os(tvOS)
-                if #available(tvOS 14, *) {
-                    #if canImport(AppTrackingTransparency)
-                    isTrackingEnabled = ATTrackingManager.trackingAuthorizationStatus == ATTrackingManager.AuthorizationStatus.authorized
-                    #else
-                    isTrackingEnabled = false
-                    #endif
-                } else {
-                    isTrackingEnabled = sharedASIdentifierManager.isAdvertisingTrackingEnabled
-                }
-                #else
-                if #available(iOS 14, *) {
-                    #if canImport(AppTrackingTransparency)
-                    isTrackingEnabled = ATTrackingManager.trackingAuthorizationStatus == ATTrackingManager.AuthorizationStatus.authorized
-                    #else
-                    isTrackingEnabled = false
-                    #endif
-                } else {
-                    isTrackingEnabled = sharedASIdentifierManager.isAdvertisingTrackingEnabled
-                }
-                #endif
-                
-                if isTrackingEnabled {
-                    return sharedASIdentifierManager.advertisingIdentifier.uuidString
-                } else {
-                    if ignoreLimitedAdTracking {
-                        return uuid()
-                    }
-                    return "opt-out"
-                }
-                #else
-                return ""
-                #endif
-            }
-            
             if let optIdentifier = identifier {
                 switch(optIdentifier.lowercased())
                 {
@@ -249,8 +209,6 @@ class TechnicalContext: NSObject {
                     #else
                     return ""
                     #endif
-                case "idfa":
-                    return idfa()
                 default:
                     return uuid()
                 }
