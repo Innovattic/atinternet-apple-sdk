@@ -43,10 +43,6 @@ import UIKit
 import WebKit
 #endif
 
-#if canImport(AdSupport)
-import AdSupport
-#endif
-
 #if canImport(AppTrackingTransparency)
 import AppTrackingTransparency
 #endif
